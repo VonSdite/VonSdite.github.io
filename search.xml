@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[使用gdb调试C/C++程序]]></title>
+    <url>%2Fposts%2F898073bb.html</url>
+    <content type="text"><![CDATA[前言调试, 是编写程序过程中确保程序正确性的重要环节, 现在使用的IDE大多都集成了调试器, 但linux最著名的调试器是命令行形式的C/C++调试器GDB。以下将介绍GDB的基本使用方法。安装GDB大多数的发行版Linux系统中都有GDBDebian 或 Ubuntu$ sudo apt-get install gdbArch Linux$ sudo pacman -S gdbFedora, CentOS 或 RHEL$ sudo yum install gdb也可以从官网中下载。示例代码学习任何一项技能, 动手试验才是关键。以下是本文演示GDB的代码, 多文件调试, 它可以很好的体现GDB的特性。将它拷贝下来并且进行实验——这是最好的方法。a.c1234567891011121314151617#include &lt;stdio.h&gt;#include "b.h"#include "c.h"int main(int argc,char**argv)&#123; long d,result=1,i=0,dresult,sum; printf("please input your student number:\n"); scanf("%ld",&amp;d);dresult=d%100; while(d&gt;0) &#123; result+=(d%100)&amp;1; d=d/100; &#125; while(i++&lt;150)&#123; sum=sqrt(dresult); dresult=sum+1; &#125; mytool1_print(":"); mytool2_print(":"); printf("your numbers are %ld,%ld\n",cresult,sum);&#125;b.h1234#ifndef _MYTOOL_1_H#define _MYTOOL_1_Hvoid mytool1_print(char*print_str);#endifb.c12345678#include&lt;stdio.h&gt;#include "b.h"#include "c.h"void mytool1_print(char*print_str)&#123; printf("1 %s\n",print_str); mytool2_print("2");&#125;c.h123456#ifndef _MYTOOL_2_H#define _MYTOOL_2_Hvoid mytool2_print(char* print_str);long sqrt(long d);extern long cresult;#endifc.c123456789101112131415#include "c.h"#include &lt;stdio.h&gt;long cresult=0;long d1result=0;long sqrt(long re)&#123; if(cresult==0)cresult=re%100/10+(re%10)*(re%10); if(d1result&gt;=140)return cresult*cresult+1; if(++d1result&gt;=128)return cresult+10; return re*re*re%1000;&#125;void mytool2_print(char* print_str)&#123; printf("2: %s\n",print_str);&#125;GDB的使用编译Debug程序首先最重要的, 你需要使用编译器的&quot;-g&quot;选项来编译程序, 这样可执行程序才能通过GDB来运行。1$ gcc a.c b.c c.c -g -o mydebug开始调试1$ gdb -tui [可执行程序名]使用&#39;-tui&#39;选项可以将代码显示在一个漂亮的交互式窗口内(所以被称为文本用户界面TUI), 在这个窗口内可以滚动鼠标滑轮, 同时在下面的GDB shell中输入命令。查看代码 list我们可以使用list命令来显示代码, 使用方法有12list [file:]start[,end]list [file:]function1. 查看c.c的第1行123list c.c:1``` **or 简写**l c.c:1123![](/images/2019-01-01-10-12-32.png)### 2. 查看b.c的3到8行list b.c:3,81**or 简写**l b.c:3,8123![](/images/2019-01-01-10-14-48.png)### 3. 查看c.c的mytool2_print函数list c.c:mytool2_print1**or 简写**l c.c:mytool2_print1234![](/images/2019-01-01-10-16-32.png)## 运行程序 run gdb 输入run即可运行程序run123456789![](/images/2019-01-01-10-51-42.png)## 设置断点 break```cbreak [file:]行号 break [file:]行号 if 条件 break [file:]函数 break *address1. 在a.c第10行设置断点12list a.c:1break 10or1break a.c:10从图可见, 文本用户界面TUI下, 设置断点会标志在文本的左侧2. 在a.c main函数开始处设置断点12list a.c:1break mainor1break a.c:main3. 在a.c的第10行设置条件断点条件断点的意思是, 当条件满足时, 断点会被执行; 条件不满足, 断点不会被执行1break a.c:10 if i == 150设置了当i等于150时, 执行断点, 方便在调试循环的时候, 想调试第几次循环的结果设置观察点 watch设置一个’观察断点’, 当这个被观察的变量发生变化时, 程序会被停止。123watch 变量 (发生变化时暂停运行) rwatch 变量 (被访问时暂停运行) awatch 变量 (发生被访问或改变时暂停运行)1. 给a.c中的sum变量设置观察点1234list a.c:1break mainrunwatch sum观察点要在程序运行的时候才能设置继续运行continue遇到断点时, 要继续向下运行到下一个断点或者运行到结束程序, 使用continue命令跳出循环until在执行完循环体内的最后一条语句之后执行 until, 就会执行完循环体到后面的一个语句停下。PS: 就是循环体要执行一遍, 回到循环判断条件, 再执行until命令就会跳出循环查看变量值 printprint用来查看变量的值12print 变量p 变量ptype用来查看变量的类型1ptype 变量修改变量的值 ste这样会覆盖变量的值。不过需要注意, 你不能创建一个新的变量或改变变量的类型。1set var [变量] = [新的值]单步调试step 运行到下一条语句, 有可能进入到一个函数里面1stepnext 直接运行下一条语句, 而不进入子函数内部1next删除断点12delete 断点号clear 断点所在行退出程序 quit1quit查看gdb内部命令 help1help 命令名complete 列出命令列出所有以字符串str开头的命令1complete str其他命令12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061info breakpoints (显示断点信息)info watchpoints (显示观察点信息)// 捕捉点catch event (event发生时, 程序暂停运行)tcatch event (设置只停一次的catchpoint, 第一次生效后, 该捕捉点被自动删除)event可以如下: exec: exec被调用 fork: fork被调用 load: 加载动态库 load libname: 加载名为libname的动态库 unload: 卸载动态库 unload libname: 卸载名为libname的动态库 syscall [args]: 调用系统调用, args可以指定系统调用号, 或者系统名称// 关于断点的disable(dis &lt;-命令简写) n 使断点n暂时失效enable(en &lt;-命令简写) n 恢复断点n功能// 函数调用call funcreturn [expr] 函数后续语句不再执行直接返回, expr可设置返回值finish 函数后续语句执行完返回// 搜索当前文件, 模式搜索forward-search regexp (行首开始) search regexp (当前行开始)reverse-search regexp (行尾开始)// 查看运行数据print命令 print [/fmt] exp当被调试的程序停止时, 可以用print命令（简写为p）或同义命令inspect来查看当前程序中运行的数据。 gdb所支持的表达式中的运算符 用&amp;运算符取出变量在内存中的地址。print &amp;array[i] &#123; type &#125;adrexp 表示一个数据类型为type、存放地址为adrexp的数据。&#123;&#125; @ 它是一个与数组有关的双目运算符 print a[2]@3 file::var 或者 function::var 表示文件file（或函数function）中变量var的值。 如&apos;f1.c&apos;::pwhatis命令显示出变量的数据类型 x命令可以查看内存地址中数据的值。其使用格式是: x [/nfu] addressdisplay命令可以预先设置一些要显示的表达式, 当程序停住时, 或是在你单步跟踪时, 变量会自动显示, 其一般格式为: display [/fmt] exp 取消对先前设置的某些表达式的自动显示功能, 可使用以下命令: undisplay [disnum] delete display [disnum]// 堆栈跟踪backtrace (bt) 打印当前的函数调用栈的所有信息frame(f) n 切换当前堆栈, n是一个从0开始的整数, 是栈中的层编号。比如：frame 0, 表示栈顶, frame 1, 表示栈的第二层。info frame(f) 显示出当前栈帧的所有信息, 如函数地址, 调用函数的地址, 被调用函数的地址, 目前函数的程序语言、函数参数地址及值、局部变量的地址等。]]></content>
+      <categories>
+        <category>C/C++</category>
+        <category>gdb</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+        <tag>gdb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Linux grep命令与正则表达式]]></title>
+    <url>%2Fposts%2F790da0f0.html</url>
+    <content type="text"><![CDATA[前言grep是一种强大的文本搜索工具, 它能使用正则表达式搜索文本, 并把匹配的行打印出来。通常grep有三种版本grep、egrep(egrep等同于grep -E)和fgrep。egrep为扩展的grep, fgrep则为快速grep(固定的字符串来对文本进行搜索, 不支持正则表达式的引用但是查询极为快速)。grep是Linux文本处理三剑客之一。grep的使用使用方式:grep [OPTIONS] PATTERN [FILE...]orgrep [OPTIONS] [-e PATTERN | -f FILE] [FILE...]常用选项:–color=auto: 对匹配到的文本着色后进行高亮显示;-i: 忽略字符的大小写-o: 仅显示匹配到的字符串-v: 显示不能被模式匹配到的行-E: 支持使用扩展的正则表达式-q: 静默模式, 即不输出任何信息-A #: 显示被模式匹配的行及其后#行-B #: 显示被模式匹配的行及其前#行-C #: 显示被模式匹配的行及其前后各#行注: 使用grep匹配时需使用双引号引起来(单引号为强引用), 防止被系统误认为参数或者特殊命令而报错。扩展grep使用方式使用方式:egrep [OPTIONS] PATTERN [FILE...]orgrep -E [OPTIONS] PATTERN [FILE...]常用选项:-i: 忽略字符的大小写-o: 仅显示匹配到的字符串本身-v: 显示不被模式匹配到的行-q: 静默模式, 即不输出任何信息-A #: 显示被模式匹配的行及其后#行-B #: 显示被模式匹配的行及其前#行-C #: 显示被模式匹配的行及其前后各#行-G: 支持基本正则表达式grep正则表达式元字符‘^’: 锚定行首‘$’: 锚定行尾‘.’: 匹配任一一个字符‘*’: 匹配零个或多个先前字符‘\?’: 匹配其前面的字符0次或者1次;‘+‘: 匹配其前面的字符1次或者多次;‘{m}‘: 匹配其前面的字符m次(\为转义字符)‘{m,n}‘: 匹配其前面的字符至少m次, 至多n次‘[]’: 匹配一个指定范围内的字符 或者 ‘[^]’匹配指定范围外的任意单个字符‘\&lt;’或’\b’: 锚定词首‘>‘或’\b’: 锚定词尾(可用\&lt;PATTERN>: 匹配完整单词)‘()‘: 将多个字符当做一个整体进行处理关于后向引用后向引用: 引用前面的分组括号中的模式所匹配到的字符分组括号中的模式匹配到的内容或被正则表达式引擎自动记录于内部的变量中:\1: 模式从左侧起, 第一个左括号及与之匹配的右括号之间模式匹配到的内容\2: 模式从左侧起, 第二个左括号及与之匹配的右括号之间模式匹配到的内容扩展正则表达式与正则表达式略有不同关于’[]’的不同&#39;[]&#39;: 依旧匹配指定范围内的任意单个字符;但是有很多特殊匹配方式:[:digit:] 匹配任意单个数字[:lower:] 匹配任意单个小写字母[:upper:] 匹配任意单个大写字母[:alpha:] 匹配任意单个字母[:alnum:] 匹配任意单个字母或数字[:punct:] 匹配任意单个符号[:space:] 匹配单个空格扩展正则不需要转义字符的地方一些地方取消了转义字符的使用:‘?’: 匹配其前面的字符0次或者1次;‘+d’: 匹配其前面的字符1次或者多次;‘{m}’: 匹配其前面的字符m次(\为转义字符)‘{m,n}’: 匹配其前面的字符至少m次, 至多n次(): 将一个或多个字符捆绑在一起, 当做一个整体进行处理, 反向引用照常使用。‘|’: 或 (注: ‘C|cat’为C与cat, ‘(C|c)at才是Cat与cat’)]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>Command</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Command</tag>
+        <tag>grep</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[解决python wordcloud中文乱码, 中文词频问题]]></title>
     <url>%2Fposts%2Fb82d5d51.html</url>
     <content type="text"><![CDATA[前言python的wordcloud可以很方便的生成词云图, 然而美中不足的是, 该库对中文支持并不是那么友好, 存在以下两个问题中文字符会乱码中文分词有问题以下介绍如何解决解决中文乱码wordcloud 不支持显示中文, 可以通过如下修改来支持中文:进入python根目录, 然后进入Lib\site-packages\wordcloud进入C:\Windows\Fonts目录下, 拷贝一个中文字库, 如华文新魏, 将其复制粘贴到Lib\site-packages\wordcloud目录下打开Lib\site-packages\wordcloud目录下wordcloud.py, 找到如下这行代码将代码改为对应拷入进来的字库名字, 如华文新魏的字库名字为STXINWEI.TTF至此解决中文乱码问题解决中文分词问题wordcloud的WordCloud类中的generate方法是先对传进去的文字进行分词, 但是对中文的分词效果不太好, 建议先自己计算词频, 存放到字典中, 然后使用generate_from_frequencies来生成词云&#123;cmd123456789101112131415161718192021222324from wordcloud import WordCloudimport matplotlib as mplimport matplotlib.pyplot as pltmpl.rcParams['font.sans-serif'] = ['SimHei'] # 指定默认字体 SimHei为黑体mpl.rcParams['axes.unicode_minus'] = False # 用来正常显示负号text = '清华大学清华大学北京大学北京大学暨南大学'textDic = &#123; '清华大学': 2, '北京大学': 2, '暨南大学': 1&#125;wc1 = WordCloud().generate(text) # generate对中文分词效果不好wc2 = WordCloud().generate_from_frequencies(textDic) # 自己来计算词频, 改善效果plt.title('generate生成的词云')plt.imshow(wc1, interpolation="bilinear")plt.axis("off")plt.figure()plt.title('自己计算词频')plt.imshow(wc2, interpolation="bilinear")plt.axis("off")plt.show()]]></content>
@@ -10,6 +37,7 @@
       </categories>
       <tags>
         <tag>Python</tag>
+        <tag>Wordcloud</tag>
       </tags>
   </entry>
   <entry>
@@ -22,6 +50,8 @@
       </categories>
       <tags>
         <tag>Python</tag>
+        <tag>数据分析</tag>
+        <tag>Wordcloud</tag>
       </tags>
   </entry>
   <entry>
@@ -34,6 +64,7 @@
       </categories>
       <tags>
         <tag>Python</tag>
+        <tag>Selenium</tag>
       </tags>
   </entry>
   <entry>
@@ -90,6 +121,8 @@
       </categories>
       <tags>
         <tag>Linux</tag>
+        <tag>Command</tag>
+        <tag>umask</tag>
       </tags>
   </entry>
   <entry>
@@ -115,6 +148,8 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
+        <tag>Valine</tag>
       </tags>
   </entry>
   <entry>
@@ -126,6 +161,7 @@
       </categories>
       <tags>
         <tag>Python</tag>
+        <tag>Python os</tag>
       </tags>
   </entry>
   <entry>
@@ -138,6 +174,7 @@
       </categories>
       <tags>
         <tag>Python</tag>
+        <tag>性能测试</tag>
       </tags>
   </entry>
   <entry>
@@ -150,6 +187,7 @@
       </categories>
       <tags>
         <tag>Python</tag>
+        <tag>timeit</tag>
       </tags>
   </entry>
   <entry>
@@ -162,6 +200,8 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
+        <tag>gitalk</tag>
       </tags>
   </entry>
   <entry>
@@ -174,6 +214,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -197,6 +238,7 @@
       </categories>
       <tags>
         <tag>C/C++</tag>
+        <tag>MFC</tag>
       </tags>
   </entry>
   <entry>
@@ -254,6 +296,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -288,6 +331,7 @@
       </categories>
       <tags>
         <tag>Vscode</tag>
+        <tag>Vscode Python配置</tag>
       </tags>
   </entry>
   <entry>
@@ -300,6 +344,7 @@
       </categories>
       <tags>
         <tag>Vscode</tag>
+        <tag>C/C++配置</tag>
       </tags>
   </entry>
   <entry>
@@ -323,6 +368,7 @@
       </categories>
       <tags>
         <tag>Vscode</tag>
+        <tag>Vscode Python配置</tag>
       </tags>
   </entry>
   <entry>
@@ -335,6 +381,7 @@
       </categories>
       <tags>
         <tag>Cmd</tag>
+        <tag>Windows</tag>
       </tags>
   </entry>
   <entry>
@@ -358,18 +405,20 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[Hexo 博客添加版权]]></title>
     <url>%2Fposts%2F54c43f8b.html</url>
-    <content type="text"><![CDATA[效果如图:实现打开主题文件themes/layout/_macro/post.swig找到&lt;footer class=&quot;post-footer&quot;&gt; 标签, 在其代码替换成如下的代码要被替换的代码12345678&lt;footer class=&quot;post-footer&quot;&gt; &#123;% if post.tags and post.tags.length and not is_index %&#125; &lt;div class=&quot;post-tags&quot;&gt; &#123;% for tag in post.tags %&#125; &lt;a href=&quot;&#123;&#123; url_for(tag.path) &#125;&#125;&quot; rel=&quot;tag&quot;&gt;# &#123;&#123; tag.name &#125;&#125;&lt;/a&gt; &#123;% endfor %&#125; &lt;/div&gt; &#123;% endif %&#125;替换后的代码123456789101112131415161718192021222324252627282930313233343536373839&lt;footer class=&quot;post-footer&quot;&gt;&#123;% if post.tags and post.tags.length and not is_index %&#125; &#123;# 版权声明节点 #&#125; &lt;div&gt; &#123;% if not is_index %&#125; &lt;ul class=&quot;post-copyright&quot;&gt; &lt;li class=&quot;post-copyright-link&quot;&gt; &lt;strong&gt;本文作者：&lt;/strong&gt; &lt;a href=&quot;/&quot; title=&quot;欢迎访问 &#123;&#123; theme.author &#125;&#125; 的个人博客&quot;&gt;&#123;&#123; theme.author &#125;&#125;&lt;/a&gt; &lt;/li&gt; &lt;li class=&quot;post-copyright-link&quot;&gt; &lt;strong&gt;本文标题：&lt;/strong&gt; &lt;a href=&quot;&#123;&#123; url_for(post.permalink) &#125;&#125;&quot; title=&quot;&#123;&#123; post.title &#125;&#125;&quot;&gt;&#123;&#123; post.title &#125;&#125;&lt;/a&gt; &lt;/li&gt; &lt;li class=&quot;post-copyright-link&quot;&gt; &lt;strong&gt;本文链接：&lt;/strong&gt; &lt;a href=&quot;&#123;&#123; url_for(post.permalink) &#125;&#125;&quot; title=&quot;&#123;&#123; post.title &#125;&#125;&quot;&gt;&#123;&#123; post.permalink &#125;&#125;&lt;/a&gt; &lt;/li&gt; &lt;li class=&quot;post-copyright-date&quot;&gt; &lt;strong&gt;发布时间： &lt;/strong&gt;&#123;&#123; post.date.format(&quot;YYYY年M月D日 - HH时MM分&quot;) &#125;&#125; &lt;/li&gt; &lt;li class=&quot;post-copyright-license&quot;&gt; &lt;strong&gt;版权声明： &lt;/strong&gt; 本文由 &#123;&#123;theme.author&#125;&#125; 原创。 &lt;/li&gt; &lt;/ul&gt; &#123;% endif %&#125; &lt;/div&gt; &#123;# 这里是将标签的井字符号替换成图标 #&#125; &lt;div class=&quot;post-tags&quot;&gt; &#123;% for tag in post.tags %&#125; &lt;a href=&quot;&#123;&#123; url_for(tag.path) &#125;&#125;&quot; rel=&quot;tag&quot;&gt;&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt; &#123;&#123; tag.name &#125;&#125;&lt;/a&gt; &#123;% endfor %&#125; &lt;/div&gt; &#123;% endif %&#125;]]></content>
+    <content type="text"><![CDATA[效果如图:实现打开主题文件themes/next/layout/_macro/post.swig找到&lt;footer class=&quot;post-footer&quot;&gt; 标签, 在其代码替换成如下的代码要被替换的代码12345678&lt;footer class=&quot;post-footer&quot;&gt; &#123;% if post.tags and post.tags.length and not is_index %&#125; &lt;div class=&quot;post-tags&quot;&gt; &#123;% for tag in post.tags %&#125; &lt;a href=&quot;&#123;&#123; url_for(tag.path) &#125;&#125;&quot; rel=&quot;tag&quot;&gt;# &#123;&#123; tag.name &#125;&#125;&lt;/a&gt; &#123;% endfor %&#125; &lt;/div&gt; &#123;% endif %&#125;替换后的代码123456789101112131415161718192021222324252627282930313233343536373839&lt;footer class=&quot;post-footer&quot;&gt;&#123;% if post.tags and post.tags.length and not is_index %&#125; &#123;# 版权声明节点 #&#125; &lt;div&gt; &#123;% if not is_index %&#125; &lt;ul class=&quot;post-copyright&quot;&gt; &lt;li class=&quot;post-copyright-link&quot;&gt; &lt;strong&gt;本文作者：&lt;/strong&gt; &lt;a href=&quot;/&quot; title=&quot;欢迎访问 &#123;&#123; theme.author &#125;&#125; 的个人博客&quot;&gt;&#123;&#123; theme.author &#125;&#125;&lt;/a&gt; &lt;/li&gt; &lt;li class=&quot;post-copyright-link&quot;&gt; &lt;strong&gt;本文标题：&lt;/strong&gt; &lt;a href=&quot;&#123;&#123; url_for(post.permalink) &#125;&#125;&quot; title=&quot;&#123;&#123; post.title &#125;&#125;&quot;&gt;&#123;&#123; post.title &#125;&#125;&lt;/a&gt; &lt;/li&gt; &lt;li class=&quot;post-copyright-link&quot;&gt; &lt;strong&gt;本文链接：&lt;/strong&gt; &lt;a href=&quot;&#123;&#123; url_for(post.permalink) &#125;&#125;&quot; title=&quot;&#123;&#123; post.title &#125;&#125;&quot;&gt;&#123;&#123; post.permalink &#125;&#125;&lt;/a&gt; &lt;/li&gt; &lt;li class=&quot;post-copyright-date&quot;&gt; &lt;strong&gt;发布时间： &lt;/strong&gt;&#123;&#123; post.date.format(&quot;YYYY年M月D日 - HH时MM分&quot;) &#125;&#125; &lt;/li&gt; &lt;li class=&quot;post-copyright-license&quot;&gt; &lt;strong&gt;版权声明： &lt;/strong&gt; 本文由 &#123;&#123;theme.author&#125;&#125; 原创。 &lt;/li&gt; &lt;/ul&gt; &#123;% endif %&#125; &lt;/div&gt; &#123;# 这里是将标签的井字符号替换成图标 #&#125; &lt;div class=&quot;post-tags&quot;&gt; &#123;% for tag in post.tags %&#125; &lt;a href=&quot;&#123;&#123; url_for(tag.path) &#125;&#125;&quot; rel=&quot;tag&quot;&gt;&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt; &#123;&#123; tag.name &#125;&#125;&lt;/a&gt; &#123;% endfor %&#125; &lt;/div&gt; &#123;% endif %&#125;]]></content>
       <categories>
         <category>Hexo</category>
         <category>Next</category>
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -382,6 +431,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -394,6 +444,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -406,6 +457,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -418,6 +470,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -430,6 +483,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -453,6 +507,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -465,6 +520,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -477,6 +533,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -489,6 +546,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
@@ -501,6 +559,7 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
 </search>
