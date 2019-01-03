@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[vi/vim 字符出现次数统计]]></title>
+    <url>%2Fposts%2F205709c1.html</url>
+    <content type="text"><![CDATA[Vi/Vim统计字符出现次数将被统计的文本内容如下1234 network. 1network net work Networked NETWORK network 1network net work Networked NETWORKnetworkednetwork network,hello worldk全词匹配只统计”network”这个单词出现的次数vi进入ex模式, 键入如下的命令1:%s/\&lt;network\&gt;//gn由图可知, 共匹配到4次, 而且我们知道单词network后面跟 “.” “,”, 它依旧是 network单词, 均被匹配到了解释% 指明操作区间, %表示全文本; 可以使用1,$或者行区间代替n 统计字符的个数, 替换操作不会被执行g 所有满足匹配的字符“\&gt;” 是一个特殊的记号, 表示只匹配单词末尾。类似地, “\&lt;” 只匹配单词的开头。字符串匹配统计”network”这个字符串出现的次数vi进入ex模式, 键入如下的命令1:%s/network//gn由图可知, 共匹配到7次。字符串匹配, 只要有”network”这个字符串出现, 则就算一次匹配了。]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>Vim</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Vim</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[makefile 介绍与编写(四) 伪目标]]></title>
     <url>%2Fposts%2Fa08b2a98.html</url>
     <content type="text"><![CDATA[前言摘录于 《跟我一起写makefile》本文主要开始介绍makefile的伪目标。伪目标最早先的一个例子中, 我们提到过一个”clean”的目标, 这是一个”伪目标”,12clean: rm *.o temp正像我们前面例子中的”clean”一样, 即然我们生成了许多文件编译文件, 我们也应该提供一个清除它们的”目标”以备完整地重编译而用。 (以”make clean”来使用该目标)因为, 我们并不生成”clean”这个文件。”伪目标”并不是一个文件, 只是一个标签。由于”伪目标”不是文件, 所以 make 无法生成它的依赖关系和决定它是否要执行。我们只有通过显示地指明这个”目标”才能让其生效。当然, “伪目标”的取名不能和文件名重名, 不然其就失去了”伪目标”的意义了。当然, 为了避免和文件重名的这种情况, 我们可以使用一个特殊的标记&quot;.PHONY&quot;来显示地指明一个目标是”伪目标”, 向 make 说明, 不管是否有这个文件, 这个目标就是”伪目标”。1.PHONY : clean只要有这个声明, 不管是否有”clean”文件, 要运行”clean”这个目标, 只有”make clean”这样。于是整个过程可以这样写:123.PHONY: cleanclean:rm *.o temp伪目标一般没有依赖的文件, 但是, 我们也可以为伪目标指定所依赖的文件。伪目标同样可以作为”默认目标”, 只要将其放在第一个。作为默认目标示例一个示例就是, 如果你的 Makefile 需要一口气生成若干个可执行文件, 但你只想简单地敲一个 make 完事, 并且, 所有的目标文件都写在一个 Makefile 中, 那么你可以使用”伪目标”这个特性:12345678all : prog1 prog2 prog3.PHONY : allprog1 : prog1.o utils.occ -o prog1 prog1.o utils.oprog2 : prog2.occ -o prog2 prog2.oprog3 : prog3.o sort.o utils.occ -o prog3 prog3.o sort.o utils.o我们知道, Makefile 中的第一个目标会被作为其默认目标。我们声明了一个&quot;all&quot;的伪目标, 其依赖于其它三个目标。由于伪目标的特性是, 总是被执行的, 所以, 其它三个目标的规则总是会被运行, 也就达到了我们一口气生成多个目标的目的。“.PHONY : all”声明了”all”这个目标为”伪目标”。作为依赖 示例从上面的例子我们可以看出, 目标也可以成为依赖。所以, 伪目标同样也可成为依赖。看下面的例子:1234567.PHONY: cleanall cleanobj cleandiffcleanall : cleanobj cleandiffrm programcleanobj :rm *.ocleandiff :rm *.diff“cleanobj”和”cleandiff”这两个伪目标有点像”子程序”的意思。我们可以输入&quot;make cleanall&quot;、&quot;make cleanobj&quot;、&quot;make cleandiff&quot;命令来达到清除不同种类文件的目的。]]></content>
