@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://vonsdite.cn/"/>
-  <updated>2019-01-08T10:33:22.463Z</updated>
+  <updated>2019-01-08T10:34:49.251Z</updated>
   <id>https://vonsdite.cn/</id>
   
   <author>
@@ -21,15 +21,15 @@
     <link href="https://vonsdite.cn/posts/416930d1.html"/>
     <id>https://vonsdite.cn/posts/416930d1.html</id>
     <published>2019-01-08T10:19:40.000Z</published>
-    <updated>2019-01-08T10:33:22.463Z</updated>
+    <updated>2019-01-08T10:34:49.251Z</updated>
     
-    <content type="html"><![CDATA[<!-- build time:Tue Jan 08 2019 18:34:49 GMT+0800 (中国标准时间) --><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>LeanCloud可以统计Hexo文章的阅读次数, 但是有它的缺陷。<br>当你的文章数目逐渐变多的时候, 使用<code>hexo d</code>时, 经常会出现 Too many requests的错误。<br>原因是, 使用<strong>免费开发版</strong>Leancloud无法短时间内接受太多的请求, 所以会导致429错误。</p><!-- rebuild by neat -->]]></content>
+    <content type="html"><![CDATA[<!-- build time:Tue Jan 08 2019 18:35:37 GMT+0800 (中国标准时间) --><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>LeanCloud可以统计Hexo文章的阅读次数, 但是有它的缺陷。<br>当你的文章数目逐渐变多的时候, 使用<code>hexo d</code>时, 经常会出现 Too many requests的错误。<br>原因是, 使用<strong>免费开发版</strong>Leancloud无法短时间内接受太多的请求, 所以会导致429错误。</p><!-- rebuild by neat -->]]></content>
     
     <summary type="html">
     
       
       
-        &lt;!-- build time:Tue Jan 08 2019 18:34:49 GMT+0800 (中国标准时间) --&gt;&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;LeanClou
+        &lt;!-- build time:Tue Jan 08 2019 18:35:37 GMT+0800 (中国标准时间) --&gt;&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;LeanClou
       
     
     </summary>
