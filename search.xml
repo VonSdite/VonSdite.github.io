@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Centos6 iptables防火墙设置 开放关闭端口]]></title>
+    <url>%2Fposts%2Ffb664bd6.html</url>
+    <content type="text"><![CDATA[开启端口方法112345/sbin/iptables -I INPUT -p tcp --dport 端口号 -j ACCEPT # 写入修改/etc/init.d/iptables save # 保存修改service iptables restart # 重启防火墙, 修改生效方法2vim /etc/sysconfig/iptables 打开配置文件加入如下语句:1-A INPUT -p tcp -m state --state NEW -m tcp --dport 端口号 -j ACCEPT # 重启防火墙, 修改完成关闭端口方法112345/sbin/iptables -I INPUT -p tcp --dport 端口号 -j DROP # 写入修改/etc/init.d/iptables save # 保存修改service iptables restart # 重启防火墙, 修改生效方法2vim /etc/sysconfig/iptables 打开配置文件加入如下语句:1-A INPUT -p tcp -m state --state NEW -m tcp --dport 端口号 -j DROP # 重启防火墙, 修改完成查看端口状态1/etc/init.d/iptables status防火墙启动、重启、关闭12345service iptables startservice iptables restartservice iptables stop]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>iptables</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Centos</tag>
+        <tag>iptables</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[WirelessMon使用介绍]]></title>
     <url>%2Fposts%2Fbc66d1bf.html</url>
     <content type="text"><![CDATA[功能综述WirelessMon是一款能够监测区域内无线网络信号实时信息的软件工具。它能够提供包括无线网络接入点状态、名称、信号强度、加密方式以及MAC地址等多种信息, 帮助用户掌握本地无线网络的详细状态。注: 在启用WirelessMon时需保证笔记本电脑的无线网卡处于开启状态, 此时该软件才能够搜索到周围的无线网络信号信息。主界面① 主界面的标签栏为&quot;Summary&quot;;② 此框图为当前连接的无线接入点的详细信息, 用户可看到该无线接入点的各项信息;③ 此框图可以查看到区域内所有的无线接入点, 并且实时更新。用户可以据此掌握本地所有无线接入点的信息;注: WirelessMon尚不支持WPA2-PSK加密方式, 因此也不能正确显示出WPA2-PSK加密方式接入点的加密类型。④ 点击此处状态栏可以按照特定的信息对搜索到的无线接入点进行重新排列, 方便用户查找特定的无线接入点。例如:点击下图红框位置, 接入点列表将会按照信号强度由弱到强或由强到弱的顺序重新显示。连接设置利用WirelessMon可直接连接上搜索到的无线接入点, 双击无线接入点名称后出现如下界面:①A. &quot;使用SSID连接&quot;表示计算机将连接到指定SSID的无线接入点, 也就是说, 若当前区域内有多个SSID相同的无线接入点, WirelessMon会自动切换到信号强度最好的无线接入点上;B. &quot;使用MAC地址连接&quot;表示计算机只会连接到指定MAC的无线接入点, WirelessMon只会连接到此MAC地址的无线接入点上, 而不会进行自动切换;②选择匹配的无线接入点&quot;验证方法&quot;及&quot;加密方法&quot;, 只有此两项均填写正确才能建立连接;（注: WirelessMon的当前版本尚不支持连接到WPA2-PSK加密方式的接入点, 若希望接入此类接入点, 需首先关闭WirelessMon,利用笔记本电脑的无线连接接入到此无线接入点, 再开启WirelessMon。）③ 根据&quot;加密方法&quot;填入此接入点的密码;④ 点击&quot;连接&quot;接入选定的无线接入点。图形工具WirelessMon自带有图形工具, 可以帮助用户掌握无线信号强度及信号稳定性, 具体操作步骤如下:① 点击选中&quot;Graphs&quot;标签栏;② 在&quot;选择图形&quot;下拉菜单中可以选择图表的格式, 不同的图表格式对应不同的横纵轴坐标, 方便用户直观了解所需信息。③ 在&quot;选择来源&quot;下拉菜单中可以选择需要监测的无线信号, 即使计算机当前未连接此接入点, WirelessMon同样可以绘制出该接入点的无线信号信息。]]></content>
