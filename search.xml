@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Centos 安装nodejs]]></title>
+    <url>%2Fposts%2Faec2847c.html</url>
+    <content type="text"><![CDATA[使用wget下载Linux版本到nodejs官网找到nodejs的版本 https://nodejs.org/dist/, 这里以v8.0.0为例下载对象32位或者64位的版本我的系统是64位的, 所以选择node-v8.0.0-linux-x64.tar.xz下载1wget https://nodejs.org/dist/v8.0.0/node-v8.0.0-linux-x64.tar.xz解压123tar -xf node-v8.0.0-linux-x64.tar.xzrm node-v8.0.0-linux-x64.tar.xz -fmv node-v8.0.0-linux-x64/ /usr/local/node # 移动到/usr/local/node中配置环境变量打开配置文件,1vim /etc/profile在配置文件最后加入如下:123export NODE_HOME=/usr/local/nodeexport PATH=$PATH:$NODE_HOME/bin export NODE_PATH=$NODE_HOME/lib/node_modules再使用命令使配置文件生效1source /etc/profile完成1node -v使用命令查看nodejs版本号, 成功看到则表明配置成功]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>Nodejs</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Centos</tag>
+        <tag>Nodejs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Centos6 iptables防火墙设置 开放关闭端口]]></title>
     <url>%2Fposts%2Ffb664bd6.html</url>
     <content type="text"><![CDATA[开启端口方法112345/sbin/iptables -I INPUT -p tcp --dport 端口号 -j ACCEPT # 写入修改/etc/init.d/iptables save # 保存修改service iptables restart # 重启防火墙, 修改生效方法2vim /etc/sysconfig/iptables 打开配置文件加入如下语句:1-A INPUT -p tcp -m state --state NEW -m tcp --dport 端口号 -j ACCEPT # 重启防火墙, 修改完成关闭端口方法112345/sbin/iptables -I INPUT -p tcp --dport 端口号 -j DROP # 写入修改/etc/init.d/iptables save # 保存修改service iptables restart # 重启防火墙, 修改生效方法2vim /etc/sysconfig/iptables 打开配置文件加入如下语句:1-A INPUT -p tcp -m state --state NEW -m tcp --dport 端口号 -j DROP # 重启防火墙, 修改完成查看端口状态1/etc/init.d/iptables status防火墙启动、重启、关闭12345service iptables startservice iptables restartservice iptables stop]]></content>
