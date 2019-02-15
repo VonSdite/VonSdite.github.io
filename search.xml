@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Centos 安装aria2]]></title>
+    <url>%2Fposts%2F35a3d1bf.html</url>
+    <content type="text"><![CDATA[下载安装包到 https://pkgs.org/download/aria2 找到你想要下载的版本(注意系统32位或64位)以64位为例, 我下载的是 aria2-1.16.4-1.el6.rf.x86_64.rpm版本1wget http://ftp.tu-chemnitz.de/pub/linux/dag/redhat/el6/en/x86_64/rpmforge/RPMS/aria2-1.16.4-1.el6.rf.x86_64.rpm然后执行安装1rpm -ivh aria2-1.16.4-1.el6.rf.x86_64.rpm发现报了如下的错误:缺少了依赖libgnutls.so和libnettle.so可以在下载页面找到需要的依赖, 浏览器 ctrl+f搜索即可只要下载一个libgnutls.so和libnettle.so就可以了下载并安装错误所需的依赖1234wget http://mirror.centos.org/centos/6/os/x86_64/Packages/gnutls-2.12.23-22.el6.x86_64.rpmrpm -ivh gnutls-2.12.23-22.el6.x86_64.rpmwget http://ftp.tu-chemnitz.de/pub/linux/dag/redhat/el6/en/x86_64/rpmforge/RPMS/nettle-2.2-1.el6.rf.x86_64.rpmrpm -ivh nettle-2.2-1.el6.rf.x86_64.rpm安装aria21rpm -ivh aria2-1.16.4-1.el6.rf.x86_64.rpm验证1aria2c --version]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>aria2</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Centos</tag>
+        <tag>aria2</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Centos6 安装高版本gcc 5.2]]></title>
     <url>%2Fposts%2F421ebfd.html</url>
     <content type="text"><![CDATA[前言Centos的yum源安装的gcc最高版本为 4.4, 但很多软件编译都要求在4.8以上, 如nodejs、aria2以下介绍安装5.2版本的gcc安装键入以下命令即可1234wget https://copr.fedoraproject.org/coprs/hhorak/devtoolset-4-rebuild-bootstrap/repo/epel-6/hhorak-devtoolset-4-rebuild-bootstrap-epel-6.repo -O /etc/yum.repos.d/devtools-4.repoyum install devtoolset-4-gcc devtoolset-4-binutils devtoolset-4-gcc-c++ -yscl enable devtoolset-4 bashgcc -v]]></content>
