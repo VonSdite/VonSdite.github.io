@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://vonsdite.cn/"/>
-  <updated>2019-02-15T04:23:48.249Z</updated>
+  <updated>2019-02-15T04:24:40.223Z</updated>
   <id>https://vonsdite.cn/</id>
   
   <author>
@@ -21,13 +21,13 @@
     <link href="https://vonsdite.cn/posts/421ebfd.html"/>
     <id>https://vonsdite.cn/posts/421ebfd.html</id>
     <published>2019-02-15T04:21:18.000Z</published>
-    <updated>2019-02-15T04:23:48.249Z</updated>
+    <updated>2019-02-15T04:24:40.223Z</updated>
     
-    <content type="html"><![CDATA[<!-- build time:Fri Feb 15 2019 12:24:18 GMT+0800 (中国标准时间) --><h1 id="前言">前言</h1><p>Centos的yum源安装的gcc最高版本为 <strong>4.4</strong>, 但很多软件编译都要求在<strong>4.8以上</strong>, 如nodejs、aria2</p><p>以下介绍安装<strong>5.2版本的gcc</strong></p><a id="more"></a><h1 id="安装">安装</h1><p>键入以下命令即可</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://copr.fedoraproject.org/coprs/hhorak/devtoolset-4-rebuild-bootstrap/repo/epel-6/hhorak-devtoolset-4-rebuild-bootstrap-epel-6.repo -O /etc/yum.repos.d/devtools-4.repo</span><br><span class="line">yum install devtoolset-4-gcc devtoolset-4-binutils devtoolset-4-gcc-c++ -y</span><br><span class="line">scl <span class="built_in">enable</span> devtoolset-4 bash</span><br><span class="line">gcc -v</span><br></pre></td></tr></table></figure><!-- rebuild by neat -->]]></content>
+    <content type="html"><![CDATA[<!-- build time:Fri Feb 15 2019 12:25:13 GMT+0800 (中国标准时间) --><h1 id="前言">前言</h1><p>Centos的yum源安装的gcc最高版本为 <strong>4.4</strong>, 但很多软件编译都要求在<strong>4.8以上</strong>, 如nodejs、aria2</p><p>以下介绍安装<strong>5.2版本的gcc</strong></p><a id="more"></a><h1 id="安装">安装</h1><p>键入以下命令即可</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://copr.fedoraproject.org/coprs/hhorak/devtoolset-4-rebuild-bootstrap/repo/epel-6/hhorak-devtoolset-4-rebuild-bootstrap-epel-6.repo -O /etc/yum.repos.d/devtools-4.repo</span><br><span class="line">yum install devtoolset-4-gcc devtoolset-4-binutils devtoolset-4-gcc-c++ -y</span><br><span class="line">scl <span class="built_in">enable</span> devtoolset-4 bash</span><br><span class="line">gcc -v</span><br></pre></td></tr></table></figure><p><img src="/images/2019-02-15-12-24-10.png" alt=""></p><!-- rebuild by neat -->]]></content>
     
     <summary type="html">
     
-      &lt;!-- build time:Fri Feb 15 2019 12:24:18 GMT+0800 (中国标准时间) --&gt;&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;&lt;p&gt;Centos的yum源安装的gcc最高版本为 &lt;strong&gt;4.4&lt;/strong&gt;, 但很多软件编译都要求在&lt;strong&gt;4.8以上&lt;/strong&gt;, 如nodejs、aria2&lt;/p&gt;&lt;p&gt;以下介绍安装&lt;strong&gt;5.2版本的gcc&lt;/strong&gt;&lt;/p&gt;
+      &lt;!-- build time:Fri Feb 15 2019 12:25:13 GMT+0800 (中国标准时间) --&gt;&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;&lt;p&gt;Centos的yum源安装的gcc最高版本为 &lt;strong&gt;4.4&lt;/strong&gt;, 但很多软件编译都要求在&lt;strong&gt;4.8以上&lt;/strong&gt;, 如nodejs、aria2&lt;/p&gt;&lt;p&gt;以下介绍安装&lt;strong&gt;5.2版本的gcc&lt;/strong&gt;&lt;/p&gt;
     
     </summary>
     
