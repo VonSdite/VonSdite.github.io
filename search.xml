@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Centos6 安装高版本gcc 5.2]]></title>
+    <url>%2Fposts%2F421ebfd.html</url>
+    <content type="text"><![CDATA[前言Centos的yum源安装的gcc最高版本为 4.4, 但很多软件编译都要求在4.8以上, 如nodejs、aria2以下介绍安装5.2版本的gcc安装键入以下命令即可1234wget https://copr.fedoraproject.org/coprs/hhorak/devtoolset-4-rebuild-bootstrap/repo/epel-6/hhorak-devtoolset-4-rebuild-bootstrap-epel-6.repo -O /etc/yum.repos.d/devtools-4.repoyum install devtoolset-4-gcc devtoolset-4-binutils devtoolset-4-gcc-c++ -yscl enable devtoolset-4 bashgcc -v]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+        <tag>Linux</tag>
+        <tag>Centos</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Centos 安装nodejs]]></title>
     <url>%2Fposts%2Faec2847c.html</url>
     <content type="text"><![CDATA[使用wget下载Linux版本到nodejs官网找到nodejs的版本 https://nodejs.org/dist/, 这里以v8.0.0为例下载对象32位或者64位的版本我的系统是64位的, 所以选择node-v8.0.0-linux-x64.tar.xz下载1wget https://nodejs.org/dist/v8.0.0/node-v8.0.0-linux-x64.tar.xz解压123tar -xf node-v8.0.0-linux-x64.tar.xzrm node-v8.0.0-linux-x64.tar.xz -fmv node-v8.0.0-linux-x64/ /usr/local/node # 移动到/usr/local/node中配置环境变量打开配置文件,1vim /etc/profile在配置文件最后加入如下:123export NODE_HOME=/usr/local/nodeexport PATH=$PATH:$NODE_HOME/bin export NODE_PATH=$NODE_HOME/lib/node_modules再使用命令使配置文件生效1source /etc/profile完成1node -v使用命令查看nodejs版本号, 成功看到则表明配置成功]]></content>
