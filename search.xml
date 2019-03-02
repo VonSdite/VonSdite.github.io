@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[vps 搭建h5ai 在线播放视频]]></title>
+    <url>%2Fposts%2Fd28cf173.html</url>
+    <content type="text"><![CDATA[前言使用h5ai, 可以实现VPS在线查看文件、播放视频、查看图片等功能最终效果图:配合VPS上的aria2下载电影 https://vonsdite.cn/posts/dd16f5a8.html, 就很舒服安装h5ai安装php根据https://vonsdite.cn/posts/dd16f5a8.html教程, 我们已经安装好http环境了, 现在只需要安装php, 方法如下centos 7123rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm --force --nodepsyum install php70wservice httpd restartubuntu123apt-get install phpapt-get install libapache2-mod-php/etc/init.d/apache2 restart下载h5ai到 https://larsjung.de/h5ai/ 下载h5ai将解压后的文件夹整个上传到/var/www/html, 跟webui同目录, 如下图修改apache配置文件Centos修改/etc/httpd/conf/httpd.conf文件, 在最后面增加以下内容, 注意替换相关信息12345678ServerName 你的vpsIP:80NameVirtualHost 你的vpsIP&lt;VirtualHost 你的vpsIP&gt;ServerAdmin admin@138vps.comDocumentRoot /var/www/html/ServerName 你的vpsIPDirectoryIndex index index.html index.php /_h5ai/public/index.php&lt;/VirtualHost&gt;ubuntu修改/etc/apache2/mods-available/dir.conf文件, 找到类似DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm,改成: DirectoryIndex index index.html index.php /_h5ai/public/index.php重启http服务centos1service httpd restartubuntu1/etc/init.d/apache2 restart完成即可使用了, Enjoy]]></content>
+      <categories>
+        <category>aria2</category>
+        <category>VPS</category>
+      </categories>
+      <tags>
+        <tag>aria2</tag>
+        <tag>VPS</tag>
+        <tag>h5ai</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[VPS 安装Aria2+WEBUI搭建离线下载神器]]></title>
+    <url>%2Fposts%2Fdd16f5a8.html</url>
+    <content type="text"><![CDATA[前言本文介绍在VPS上搭建自己的离线下载工具, 搭建成功后即可远程离线下载自己的电影了成功搭建后, 访问自己VPS的ip 如图所示,搭建流程安装Aria2这里介绍Centos 6 64位安装Aria2的过程, 见文章 https://vonsdite.cn/posts/35a3d1bf.html配置Aria2创建.aria2文件夹在自己VPS root目录或者home目录 创建.aria2文件夹, 该文件夹用于保存aria2的配置文件12cd ~mkdir .aria2创建aria2.conf aria2.log aria2.session123touch aria2.conf touch aria2.log touch aria2.session.修改aria2.conf内容到文件https://vonsdite.cn/posts/987f219f.html 复制aria2的配置到aria2.conf注意修改一下几点:有BT/磁力链下载需求的, 请设置下面bt-tracker的每日更新, 见 https://github.com/VonSdite/UpdateBtTracker, 需要python3环境、requests模块, 注意修改conf的位置, 同时使用linux的 crontab -e来设置其每日定时运行启动aria2配置完Aria2, 就可以在VPS上启动aria2了1aria2c --conf-path=/root/.aria2/aria2.conf -D设置为开机自启动centos到/etc/rc.d/rc.local文件下面加入下面这一行1aria2c --conf-path=/root/aria2.conf -D &amp;ubuntu到/etc/rc.local文件内, 在exit 0前面加入下面一行1aria2c --conf-path=/root/aria2.conf -D &amp;安装WEBUI安装http服务首先要安装http服务, 注意, 如果有iptables, 要先开放80端口,开放80端口如下 参考文章 https://vonsdite.cn/posts/fb664bd6.html123/sbin/iptables -I INPUT -p tcp --dport 80 -j ACCEPT /etc/init.d/iptables save service iptables restart安装http服务centos123yum -y install httpdchkconfig --levels 235 httpd onservice httpd startubuntu1apt-get -y install apache2下载WebUIgit clone https://github.com/ziahamza/webui-aria2保留clone下来的webui-aria2的docs目录, 并改名为webui, 并放到/var/www/html/目录下。同时设置权限:1chmod 755 /var/www/html/webui然后http://IP地址/webui 就可访问成功, 如文章最开始的示例图一样关于百度云rpc远程下载文章在设置aria2.conf时, 打开了rpc服务, 主要是为了与方便导出百度云下载最终效果如图安装chrome插件为了导出百度云, 并使用rpc服务, 需要安装网盘助手来导出插件下载链接 https://github.com/acgotaku/BaiduExporter, 安装方法README.md已有介绍设置网盘助手Set --rpc-secret=if you are using aria2 1.18.4(or higher) with 'JSON-RPC PATH' like http://token:secret@hostname:port/jsonrpcSet --rpc-user=--rpc-passwd=if you are using aria2 1.15.2(or higher) with 'JSON-RPC PATH' like http://username:passwd@hostname:port/jsonrpc完成上述设置, 就可以很方便的使用了, Enjoy配合h5ai, 就可以实现下载视频后在线播放：https://vonsdite.cn/posts/d28cf173.html]]></content>
+      <categories>
+        <category>aria2</category>
+        <category>VPS</category>
+      </categories>
+      <tags>
+        <tag>aria2</tag>
+        <tag>VPS</tag>
+        <tag>WEBUI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[服务器、云服务器与虚拟主机的区别]]></title>
+    <url>%2Fposts%2Fd75bb8fc.html</url>
+    <content type="text"><![CDATA[服务器(standalone server): 即独立主机。服务器有高速度的运算能力、长时间的可靠运行、强大的外部数据吞吐能力等优势, 且只由一个用户使用, 所以在资源和带宽方面有极大的优势。服务器的稳定安全、独享宽带、可扩展硬件、易使用等特性, 都比较适合中高端用户。服务器为三者里价格最贵。云服务器(Elastic Compute Service, ECS): 一种处理能力可弹性收缩的计算服务, 管理方式比物理服务器更加简单高效。云服务器主要面向中小企业用户与高端用户, 提供基于互联网的基础设施服务。快速的业务部署与配置, 规模的弹性扩展能力, 计费方式灵活等特性, 吸引了很多用户选择。价格比独立服务器要便宜。虚拟主机(Virtual Private Server, VPS): 也叫&quot;网站空间&quot;。就是把一台服务器分为多个&quot;虚拟&quot;服务器, 每个虚拟主机都具有独立的域名和完整的Internet服务器功能。虚拟主机低 成本高利用率等特点, 吸引了很多中小企业用户。虚拟主机是三者中价格最便宜的。其实三者都各有各的优势, 不同的企业, 不同的产品也有不同的需求。所以, 各位站长要根据自己的实际情况, 对比需求和优势, 选择一款适合自己的产品, 才是性价比最高的。当然, 在选择的过程中除了产品特性, 还有很多需要的地方, 各位一定要谨慎选择。]]></content>
+      <categories>
+        <category>服务器</category>
+      </categories>
+      <tags>
+        <tag>服务器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[更改linux的时区]]></title>
     <url>%2Fposts%2F5e64a472.html</url>
     <content type="text"><![CDATA[修改/etc/sysconfig/clock为如下1ZONE=&quot;Asia/Shanghai&quot;执行命令1rm /etc/localtime -f链接到上海时区文件1ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime]]></content>
