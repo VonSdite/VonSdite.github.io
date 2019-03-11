@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[darnet编译 windows+vs2015+cuda10.0+cudnn7.4 GPU版本]]></title>
+    <url>%2Fposts%2F25f3339.html</url>
+    <content type="text"><![CDATA[前言在windows下想使用yolov3, 需要先编译darknet本文的编译过程主要参考AlexeyAB大神的编译过程, 对应的是legacy wayhttps://github.com/AlexeyAB/darknet#how-to-compile-on-windows-legacy-way关于using vcpkg方法至于using vcpkg这个方法没成功, 原因有两点vs2017 疯狂报错, 报各种intptr_t等错误(尝试过改为 平台工具集改为v140、编译设置为c++, 均失败告终)没太理解图中这两点, 一是要修改CMakeLists.txt的内容, 查看内容后, 可能只是为了有tensor core显卡做准备的吧, 而是bulid.ps1报了好多错误…emmmm, 枉费我编译了2.7个小时的opencv(vcpkg下载opencv之后, 竟然疯狂build…)legacy way编译首先, 我们看看GPU版本需要下载什么需要安装的有vs2015, 本文介绍使用vs2015编译darknetCUDA 10.0: https://developer.nvidia.com/cuda-toolkit-archiveOpenCV &lt; 4.0 https://opencv.org/releases.html, 环境变量暂时不设置, 稍后介绍cuDNN &gt;= 7.0 for CUDA 10.0 https://developer.nvidia.com/rdp/cudnn-archive, 环境变量暂时不设置, 稍后介绍别的就不需要安装了安装CUDA 10.0和cuDNN7.4安装和配置过程参考文章 https://vonsdite.cn/posts/c6b151e6.html另外, 新建一个系统变量CUDNN, 变量值为cudnn的安装路径: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0OpenCV安装openCV安装和配置过程参考文章 https://vonsdite.cn/posts/f13d7151.html编译darknetclone项目首先clone AlexeyAB的仓库1git clone https://github.com/AlexeyAB/darknet.git编译用vs2015打开 你clone的目录\darknet\build\darknet\darknet.sln设置解决方案配置为: Release解决方案平台为: x64修改项目属性:属性=&gt;常规, 目标平台版本为8.1, 平台工具集为v140C\C++=&gt;常规=&gt;附加包含目录, 将项目自带的opencv包含目录改成自己安装的opencv包含目录C:\opencv\build\include属性=&gt;链接器=&gt;常规=&gt;附加库目录, 将项目自带的opencv库目录改为自己安装的opencv库目录C:\opencv\build\x64\vc14\lib保存更改的属性, 生成=&gt;生成darknet。编译成功, 在你clone的目录\darknet\build\darknet\x64下会生成darknet.exe将C:\opencv\build\x64\vc14\bin下的 opencv_world345.dll 和 opencv_ffmpeg345_64.dll 复制到darknet.exe所在文件夹下将C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin下的cudnn64_7.dll也复制到darknet.exe所在文件夹下, 就可以在Windows系统下用darknet框架训练YOLO啦！]]></content>
+      <categories>
+        <category>darknet</category>
+      </categories>
+      <tags>
+        <tag>darknet</tag>
+        <tag>编译</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[openCV 安装]]></title>
+    <url>%2Fposts%2Ff13d7151.html</url>
+    <content type="text"><![CDATA[前言图像处理, 需要安装OpenCV安装访问 https://opencv.org/releases.html, 选择 3.4.5-Win pack安装选默认路径就行。安装完成后将C:\opencv\build\include和C:\opencv\build\x64\vc14\lib添加到系统变量Path中去。]]></content>
+      <categories>
+        <category>openCV</category>
+      </categories>
+      <tags>
+        <tag>openCV</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[CUDA 10.0和cuDNN 7.4安装配置]]></title>
+    <url>%2Fposts%2Fc6b151e6.html</url>
+    <content type="text"><![CDATA[前言深度学习经常需要用到GPU, 所以就需要下载安装配置CUDA和cuDNN安装CUDA 10.0访问网址https://developer.nvidia.com/cuda-toolkit-archive, 然后点击CUDA Toolkit 10.0接下来根据自己的电脑系统来选择下载, exe(network)、exe(local)均可, exe(network)应该会快一点吧下载完成后, 打开安装程序:安装路径可以默认也可以自定义。之后点击ok就行。全部安装可以选择默认路径或者自定义安装路径, 记下安装的路径。最终&quot;下一步&quot;, 然后&quot;完成&quot;就行。配置系统环境变量, 选择path(安装程序可能帮你加了这个环境变量了, 加在了path的第一个位置):检查是否有下图中的两个环境变量, 这两个变量可能出现在用户变量中, 没有的话手动添加即可验证安装: nvcc -V安装cuDNN 7.4访问网址 https://developer.nvidia.com/rdp/cudnn-archive, 点击Download cuDNN v7.4.2 (Dec 14, 2018), for CUDA 10.0然后需要登录你的nvidia账号, 没有的话, 就注册一个下载后下载后, 将下载文件解压, 然后 copy------》paste, 是无冲突合并按照自己的情况来, 图中是我的解压和安装路径: (注意是路径中的文件)添加环境变量C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64, 注意路径至此, cuDNN和CUDA均安装完成]]></content>
+      <categories>
+        <category>CUDA、cuDNN</category>
+      </categories>
+      <tags>
+        <tag>CUDA</tag>
+        <tag>cuDNN</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[vps 搭建h5ai 在线播放视频]]></title>
     <url>%2Fposts%2Fd28cf173.html</url>
     <content type="text"><![CDATA[前言使用h5ai, 可以实现VPS在线查看文件、播放视频、查看图片等功能最终效果图:配合VPS上的aria2下载电影 https://vonsdite.cn/posts/dd16f5a8.html, 就很舒服安装h5ai安装php根据https://vonsdite.cn/posts/dd16f5a8.html教程, 我们已经安装好http环境了, 现在只需要安装php, 方法如下centos 7123rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm --force --nodepsyum install php70wservice httpd restartubuntu123apt-get install phpapt-get install libapache2-mod-php/etc/init.d/apache2 restart下载h5ai到 https://larsjung.de/h5ai/ 下载h5ai将解压后的文件夹整个上传到/var/www/html, 跟webui同目录, 如下图修改apache配置文件Centos修改/etc/httpd/conf/httpd.conf文件, 在最后面增加以下内容, 注意替换相关信息12345678ServerName 你的vpsIP:80NameVirtualHost 你的vpsIP&lt;VirtualHost 你的vpsIP&gt;ServerAdmin admin@138vps.comDocumentRoot /var/www/html/ServerName 你的vpsIPDirectoryIndex index index.html index.php /_h5ai/public/index.php&lt;/VirtualHost&gt;ubuntu修改/etc/apache2/mods-available/dir.conf文件, 找到类似DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm,改成: DirectoryIndex index index.html index.php /_h5ai/public/index.php重启http服务centos1service httpd restartubuntu1/etc/init.d/apache2 restart完成即可使用了, Enjoy]]></content>
