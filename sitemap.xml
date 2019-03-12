@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://vonsdite.cn/about/index.html</loc>
+    
+    <lastmod>2019-03-12T02:32:50.412Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://vonsdite.cn/posts/25f3339.html</loc>
     
     <lastmod>2019-03-11T13:24:50.489Z</lastmod>
@@ -474,13 +481,6 @@
     <loc>https://vonsdite.cn/tags/index.html</loc>
     
     <lastmod>2018-12-07T07:40:02.680Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://vonsdite.cn/about/index.html</loc>
-    
-    <lastmod>2018-12-05T13:17:50.655Z</lastmod>
     
   </url>
   
