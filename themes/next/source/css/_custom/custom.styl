@@ -1,0 +1,98 @@
+// Custom styles.
+.post-body p {
+    margin: 0px 0px 5px 0px;
+}
+
+.highlight, pre {
+    margin: 0px;
+}
+
+.post-body {
+    color: #444;
+}
+
+.post-body h2 {
+    border-bottom: 0px;
+}
+
+.post-body h3 {
+    border-bottom: 0px;
+}
+
+span::selection {
+    background:blue;
+    color:white;
+}
+span::-moz-selection {
+    background:blue;
+    color:#ff645d;
+}
+span::-webkit-selection {
+    background:blue;
+    color:#ff645d;
+}
+
+td{word-break:normal;}code{padding:2px 8px;margin:3px;color:#d14;background-color:#fbfbfb;border:1px solid #e1e1e8;white-space:nowrap;font-family:Consolas,Monaco,Menlo,"Courier New",monospace;font-size:14px;border-radius:5px;}b,strong{border-radius:10px;padding:2px 5px;color:#000;font-weight:700;}
+
+p {
+    margin: 0;
+}
+
+if hexo-config("custom_css.post_body_a.enable")
+  .post-body
+    a:not(.btn){
+      color: convert(hexo-config("custom_css.post_body_a.normal_color"));
+      border-bottom: none;
+      &:hover {
+        color: convert(hexo-config("custom_css.post_body_a.hover_color"));
+        text-decoration: underline;
+      }
+    }
+
+#animate {
+    animation: iconAnimate 1s cubic-bezier(0.28, -0.75, 0.82, 0.85) infinite;
+}
+
+.post-copyright {
+    margin: 2em 0 0;
+    padding: 0.5em 1em;
+    border-left: 3px solid #FF1700;
+    background-color: #F9F9F9;
+    list-style: none;
+}
+
+body {
+    /*background:url(/images/bg-img.png) repeat top left scroll;
+    #footer > div > div {
+        color:#666;
+    }*/
+    background:url(/images/background.jpg);
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+    background-position:50% 50%;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -ms-background-size: cover;
+
+    .copyright {
+        color:#000;
+    }
+    .busuanzi-count {
+        color:#eee;
+    }
+}
+
+#menu > li.menu-item.menu-item-\28 灬ºωº灬\29 ♡ > a{
+    color:#ff0000;
+    font-weight:bold;
+}
+
+#gitalk-container {
+    color:#eee;
+}
+
+#gitalk-container > div > div.gt-header > div.gt-header-comment {
+    color:#000;
+}

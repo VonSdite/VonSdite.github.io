@@ -1,0 +1,10 @@
+options:
+  lineNumbers: true
+  spellcheck: false
+  overwriteImages: false
+  imagePath: /images
+  imagePrefix: pic_
+editor:
+  lineNumbers: true
+  inputStyle: contenteditable
+  spellcheck: false

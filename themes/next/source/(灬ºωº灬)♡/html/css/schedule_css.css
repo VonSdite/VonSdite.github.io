@@ -1,0 +1,34 @@
+body{
+    color:#f7f96e;
+    font-family:"楷体";
+    font-size:22px;
+    font-weight:900;
+}
+table{
+    border-collapse:collapse;
+    margin:auto;
+}
+tr{
+    height:20px;
+    text-align:center;
+    border-color:#dcdcdc;
+    border-width:3px;
+}
+pre{
+    font-size:12px;
+    color:#00cdff;
+}
+th{
+    padding-top:10px;
+    border-color:#dcdcdc;
+    border-width:3px;
+    font-weight: bolder;
+    color:#ffaaff;
+}
+td{
+    width:135px;
+    height: 130px;
+    border-color:#dcdcdc;
+    border-width:3px;
+    font-weight: bolder;
+}
