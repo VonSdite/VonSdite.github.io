@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[darknet yolov3 摄像头退出时程序崩溃]]></title>
+    <url>%2Fposts%2Fd94f737c.html</url>
+    <content type="text"><![CDATA[前言最近在做yolov3目标检测, 总是遇到了各种问题和bug。这次遇到的是 打开摄像头检测后, 退出程序时, 程序发生崩溃。webcam崩溃yolov3打开摄像头测试, 退出时, 程序会崩溃。如上图根据作者的说法, 尝试更换更低版本的opencv, 可能解决问题, 结果仍然崩溃。然后尝试对源码单步调试, 最终定位到了崩溃的原因如图(真的是边打断点, 边逐层深入, 调试很爽!)中断的原因是ntdll.dll, 但是报的错误说是在darknet.exe文件附近(但是没找到, 那估计是在环境变量某处), 而且考虑到是关闭摄像头时报错, 那就是和opencv有关系。Stack Overflow搜索了下opencv和ntdll.dll之间出的问题, 找到如下解决方案意思就是说, 首先要知道你用的程序用的是32位的ntdll.dll还是64位的ntdll.dll, 可以使用dependency walker来查看你的程序, 即exe因为我们编译的darknet.exe是64位的, 那肯定是64位的ntdll.dll用everything搜索ntdll.dll原来这个dll是系统dll, 难怪没在darknet目录下找到它。我们来查看下环境变量,可以看到C:\Windows\system32这个环境变量在第一个, 那肯定是读取了32位的ntdll.dll。解决办法就是复制C:\Windows\SysWOW64的ntdll.dll到darknet.exe附近即可优雅退出!]]></content>
+      <categories>
+        <category>darknet</category>
+        <category>yolov3</category>
+      </categories>
+      <tags>
+        <tag>darknet</tag>
+        <tag>yolov3</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[darknet yolov3 训练时出现 Cannot load image 乱码问题]]></title>
     <url>%2Fposts%2Fe401f4af.html</url>
     <content type="text"><![CDATA[前言在训练VOC数据集时, 总是出现Cannot load image的问题, 既有乱码也有打不开的问题解决办法最终解决办法找了很多网上的解决办法, 无非都是改最后的换行符为Unix的LR换行符, 但对于我来说还是没能成功。问题出现于train.txt文件上, 我重新新建一个txt文件(切记不要用记事本打开, 用sublime、vscode、notepad++等打开),将train.txt的内容拷贝到新的txt文件中, 删除旧的train.txt, 重命名新的txt的文件为train.txt, 解决问题所以问题出在哪?我最开始生成train.txt的思路和darknet思路一致, 如下123cat 2007_train.txt &gt; train.txtcat 2007_val.txt &gt;&gt; train.txtcat 2012_*.txt &gt;&gt; train.txtdarknet上的是1cat 2007_train.txt 2007_val.txt 2012_*.txt &gt; train.txtwindows的cmd是没有cat命令的, 但是powershell有cat命令, 但是直接用darknet上的命令会失败, 拆行写追加即可生成train.txt所以问题在这个txt身上, 尝试过网上改换行符为Unix的LR换行符, 很不幸的失败了。但转念考虑, 这个txt可能和windows的记事本有关(我没有用记事本打开过train.txt)。而在windows平台下, 使用系统的记事本以UTF-8编码格式存储一个文本文件, 由于Microsoft开发记事本的团队使用了一个非常怪异的行为来保存UTF-8编码的文件, 它们自作聪明地在每个文件开头添加了0xefbbbf(十六进制)的字符, 所以这个问题可能出在了这个十六进制字符上所以解决办法如上, 新建一个txt, 不要使用记事本打开, 把原来的数据拷贝过来即可解决用如下的py代码来生成train.txt, 当然这里是指 VOC数据集, 自己按自己情况来写123456789file = ['2007_train.txt', '2007_val.txt', '2012_train.txt', '2012_val.txt']text = ''for fileName in file: with open(fileName, 'r', encoding='utf-8') as f: text += f.read() text = text.strip() text += '\n'with open('train.txt', 'w', encoding='utf-8') as f: f.write(text)网上常见解决办法解决方法: 使用Notepad++(1) 视图 =&gt; 显示符号 =&gt; 显示所有符号;(2) 编辑 =&gt; 档案格式转换 =&gt; 转换为UNIX格式;确保最后一行有且仅有一个LF]]></content>
