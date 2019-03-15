@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[darknet yolov3 webcam摄像头运行保存视频命令程序崩溃]]></title>
+    <url>%2Fposts%2F2faa3031.html</url>
+    <content type="text"><![CDATA[前言在使用darknet打开摄像头进行目标检测时, 除了想实时监测外, 还想保存检测的视频, 就可以使用-out_filename这个参数比如下面的命令1darknet detector demo cfg/coco.data cfg/yolov3-tiny.cfg weights/yolov3-tiny.weights -out_filename webcam.avi但是却直接遇到了崩溃, 明明不保存视频时不会奔溃的, 为什么一使用-out_filename就崩溃了进行调试遇到这种问题, 只能通过调试源代码才能查出代码崩溃的原因先设置好命令行参数, 注意使用绝对路径, coco.data里面的names参数也要用绝对路径(相对路径也可以, 但容易出错, 出错程序会一闪而过, 通过单步调试可知为什么闪退了)进行摄像头保存调试, 即 使用参数-out_filename通过单步调试找到中断点在这里,思考到我们调用的是摄像头, 应该是涉及不到get_stream_fps这个函数, 应该默认为25即可。修改代码为如图,1if (filename) src_fps = get_stream_fps(cap, cpp_video_capture);再次编译, 测试摄像头录像保存成功导出了录像视频]]></content>
+      <categories>
+        <category>darknet</category>
+        <category>yolov3</category>
+      </categories>
+      <tags>
+        <tag>darknet</tag>
+        <tag>yolov3</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[darknet yolov3 摄像头退出时程序崩溃]]></title>
     <url>%2Fposts%2Fd94f737c.html</url>
     <content type="text"><![CDATA[前言最近在做yolov3目标检测, 总是遇到了各种问题和bug。这次遇到的是 打开摄像头检测后, 退出程序时, 程序发生崩溃。webcam崩溃yolov3打开摄像头测试, 退出时, 程序会崩溃。如上图根据作者的说法, 尝试更换更低版本的opencv, 可能解决问题, 结果仍然崩溃。然后尝试对源码单步调试, 最终定位到了崩溃的原因如图(真的是边打断点, 边逐层深入, 调试很爽!)中断的原因是ntdll.dll, 但是报的错误说是在darknet.exe文件附近(但是没找到, 那估计是在环境变量某处), 而且考虑到是关闭摄像头时报错, 那就是和opencv有关系。Stack Overflow搜索了下opencv和ntdll.dll之间出的问题, 找到如下解决方案意思就是说, 首先要知道你用的程序用的是32位的ntdll.dll还是64位的ntdll.dll, 可以使用dependency walker来查看你的程序, 即exe因为我们编译的darknet.exe是64位的, 那肯定是64位的ntdll.dll用everything搜索ntdll.dll原来这个dll是系统dll, 难怪没在darknet目录下找到它。我们来查看下环境变量,可以看到C:\Windows\system32这个环境变量在第一个, 那肯定是读取了32位的ntdll.dll。解决办法就是复制C:\Windows\SysWOW64的ntdll.dll到darknet.exe附近即可优雅退出!]]></content>
