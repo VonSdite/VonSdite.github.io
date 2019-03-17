@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://vonsdite.cn/"/>
-  <updated>2019-03-17T02:53:45.492Z</updated>
+  <updated>2019-03-17T02:53:55.799Z</updated>
   <id>https://vonsdite.cn/</id>
   
   <author>
@@ -21,13 +21,13 @@
     <link href="https://vonsdite.cn/posts/1a00e4df.html"/>
     <id>https://vonsdite.cn/posts/1a00e4df.html</id>
     <published>2019-03-17T02:48:18.000Z</published>
-    <updated>2019-03-17T02:53:45.492Z</updated>
+    <updated>2019-03-17T02:53:55.799Z</updated>
     
-    <content type="html"><![CDATA[<!-- build time:Sun Mar 17 2019 10:53:56 GMT+0800 (中国标准时间) --><h1 id="前言">前言</h1><p>好不容易编译<code>opencv 3.4.0</code>花费了3个小时, 再来编译<code>darknet</code>的时候竟报了<code>opencv</code>的错误<br><img src="/images/2019-03-17-10-50-11.png" alt=""></p><a id="more"></a><h1 id="查找错误">查找错误</h1><p>通过<code>vs2015</code>定位查找<code>InputArray</code>的错误, 就是一直点<code>f12</code>转到定义, 最终来到了<code>min</code>函数<br><img src="/images/2019-03-17-10-51-16.png" alt=""><br>图中显示了<code>min</code>函数已被宏定义, 为什么会被宏定义了 =&gt; 查看了google, 别人说<code>windows.h</code>里面定义了<code>min</code> <code>max</code>两个宏,<br>要取消定义的话, 在<code>windows.h</code>前加入宏定义<code>#define NOMINMAX</code></p><p>因为我们不好找<code>windows.h</code>, 所以在<code>darknet</code>项目属性页 =&gt; <code>C/C++</code> =&gt; <code>预处理器定义</code> 加入<code>NOMINMAX</code>即可<br><img src="/images/2019-03-17-10-53-36.png" alt=""></p><p>之后就能成功编译了</p><!-- rebuild by neat -->]]></content>
+    <content type="html"><![CDATA[<!-- build time:Sun Mar 17 2019 15:37:47 GMT+0800 (中国标准时间) --><h1 id="前言">前言</h1><p>好不容易编译<code>opencv 3.4.0</code>花费了3个小时, 再来编译<code>darknet</code>的时候竟报了<code>opencv</code>的错误<br><img src="/images/2019-03-17-10-50-11.png" alt=""></p><a id="more"></a><h1 id="查找错误">查找错误</h1><p>通过<code>vs2015</code>定位查找<code>InputArray</code>的错误, 就是一直点<code>f12</code>转到定义, 最终来到了<code>min</code>函数<br><img src="/images/2019-03-17-10-51-16.png" alt=""><br>图中显示了<code>min</code>函数已被宏定义, 为什么会被宏定义了 =&gt; 查看了google, 别人说<code>windows.h</code>里面定义了<code>min</code> <code>max</code>两个宏,<br>要取消定义的话, 在<code>windows.h</code>前加入宏定义<code>#define NOMINMAX</code></p><p>因为我们不好找<code>windows.h</code>, 所以在<code>darknet</code>项目属性页 =&gt; <code>C/C++</code> =&gt; <code>预处理器定义</code> 加入<code>NOMINMAX</code>即可<br><img src="/images/2019-03-17-10-53-36.png" alt=""></p><p>之后就能成功编译了</p><!-- rebuild by neat -->]]></content>
     
     <summary type="html">
     
-      &lt;!-- build time:Sun Mar 17 2019 10:53:56 GMT+0800 (中国标准时间) --&gt;&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;&lt;p&gt;好不容易编译&lt;code&gt;opencv 3.4.0&lt;/code&gt;花费了3个小时, 再来编译&lt;code&gt;darknet&lt;/code&gt;的时候竟报了&lt;code&gt;opencv&lt;/code&gt;的错误&lt;br&gt;&lt;img src=&quot;/images/2019-03-17-10-50-11.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;!-- build time:Sun Mar 17 2019 15:37:47 GMT+0800 (中国标准时间) --&gt;&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;&lt;p&gt;好不容易编译&lt;code&gt;opencv 3.4.0&lt;/code&gt;花费了3个小时, 再来编译&lt;code&gt;darknet&lt;/code&gt;的时候竟报了&lt;code&gt;opencv&lt;/code&gt;的错误&lt;br&gt;&lt;img src=&quot;/images/2019-03-17-10-50-11.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
     
@@ -101,13 +101,13 @@
     <link href="https://vonsdite.cn/posts/d94f737c.html"/>
     <id>https://vonsdite.cn/posts/d94f737c.html</id>
     <published>2019-03-14T16:08:03.000Z</published>
-    <updated>2019-03-14T16:11:29.577Z</updated>
+    <updated>2019-03-17T07:37:37.715Z</updated>
     
-    <content type="html"><![CDATA[<!-- build time:Sun Mar 17 2019 10:53:56 GMT+0800 (中国标准时间) --><h1 id="前言">前言</h1><p>最近在做<code>yolov3</code>目标检测, 总是遇到了各种问题和bug。<br>这次遇到的是 打开摄像头检测后, 退出程序时, 程序发生崩溃。<br><img src="/images/2019-03-14-23-51-08.png" alt=""></p><a id="more"></a><h1 id="webcam崩溃">webcam崩溃</h1><p>yolov3打开摄像头测试, 退出时, 程序会崩溃。如上图</p><p>根据作者的说法, 尝试更换<strong>更低版本</strong>的opencv, 可能解决问题, 结果仍然崩溃。</p><p>然后尝试对源码单步调试, 最终定位到了崩溃的原因如图<br>(<em>真的是边打断点, 边逐层深入, 调试很爽!</em>)<br><img src="/images/2019-03-14-23-53-35.png" alt=""></p><p>中断的原因是<code>ntdll.dll</code>, 但是报的错误说是<strong>在darknet.exe文件附近</strong>(但是没找到, 那估计是在<strong>环境变量</strong>某处), 而且考虑到是关闭摄像头时报错, 那就是和<code>opencv</code>有关系。<br><code>Stack Overflow</code>搜索了下<code>opencv</code>和<code>ntdll.dll</code>之间出的问题, 找到如下解决方案</p><p><img src="/images/2019-03-14-23-55-36.png" alt=""></p><p>意思就是说, 首先要知道你用的程序用的是<strong>32位</strong>的<code>ntdll.dll</code>还是<strong>64位</strong>的<code>ntdll.dll</code>, 可以使用<a href="http://www.dependencywalker.com/" target="_blank" rel="noopener">dependency walker</a>来查看你的程序, 即<code>exe</code></p><p>因为我们编译的<strong>darknet.exe</strong>是64位的, 那肯定是<strong>64位</strong>的<code>ntdll.dll</code></p><p>用everything搜索<code>ntdll.dll</code><br><img src="/images/2019-03-14-23-58-19.png" alt=""><br>原来这个dll是<strong>系统dll</strong>, 难怪没在darknet目录下找到它。<br>我们来查看下<strong>环境变量</strong>,<br><img src="/images/2019-03-15-00-00-56.png" alt=""></p><p>可以看到<code>C:\Windows\system32</code>这个环境变量在第一个, 那肯定是读取了<strong>32位</strong>的<code>ntdll.dll</code>。</p><p>解决办法就是复制<code>C:\Windows\SysWOW64</code>的<code>ntdll.dll</code>到<code>darknet.exe</code>附近即可</p><p><strong>优雅退出!</strong><br><img src="/images/2019-03-15-00-06-25.png" alt=""></p><!-- rebuild by neat -->]]></content>
+    <content type="html"><![CDATA[<!-- build time:Sun Mar 17 2019 15:37:47 GMT+0800 (中国标准时间) --><h1 id="可能并无卵用">可能并无卵用!..</h1><h1 id="前言">前言</h1><p>最近在做<code>yolov3</code>目标检测, 总是遇到了各种问题和bug。<br>这次遇到的是 打开摄像头检测后, 退出程序时, 程序发生崩溃。<br><img src="/images/2019-03-14-23-51-08.png" alt=""></p><a id="more"></a><h1 id="webcam崩溃">webcam崩溃</h1><p>yolov3打开摄像头测试, 退出时, 程序会崩溃。如上图</p><p>根据作者的说法, 尝试更换<strong>更低版本</strong>的opencv, 可能解决问题, 结果仍然崩溃。</p><p>然后尝试对源码单步调试, 最终定位到了崩溃的原因如图<br>(<em>真的是边打断点, 边逐层深入, 调试很爽!</em>)<br><img src="/images/2019-03-14-23-53-35.png" alt=""></p><p>中断的原因是<code>ntdll.dll</code>, 但是报的错误说是<strong>在darknet.exe文件附近</strong>(但是没找到, 那估计是在<strong>环境变量</strong>某处), 而且考虑到是关闭摄像头时报错, 那就是和<code>opencv</code>有关系。<br><code>Stack Overflow</code>搜索了下<code>opencv</code>和<code>ntdll.dll</code>之间出的问题, 找到如下解决方案</p><p><img src="/images/2019-03-14-23-55-36.png" alt=""></p><p>意思就是说, 首先要知道你用的程序用的是<strong>32位</strong>的<code>ntdll.dll</code>还是<strong>64位</strong>的<code>ntdll.dll</code>, 可以使用<a href="http://www.dependencywalker.com/" target="_blank" rel="noopener">dependency walker</a>来查看你的程序, 即<code>exe</code></p><p>因为我们编译的<strong>darknet.exe</strong>是64位的, 那肯定是<strong>64位</strong>的<code>ntdll.dll</code></p><p>用everything搜索<code>ntdll.dll</code><br><img src="/images/2019-03-14-23-58-19.png" alt=""><br>原来这个dll是<strong>系统dll</strong>, 难怪没在darknet目录下找到它。<br>我们来查看下<strong>环境变量</strong>,<br><img src="/images/2019-03-15-00-00-56.png" alt=""></p><p>可以看到<code>C:\Windows\system32</code>这个环境变量在第一个, 那肯定是读取了<strong>32位</strong>的<code>ntdll.dll</code>。</p><p>解决办法就是复制<code>C:\Windows\SysWOW64</code>的<code>ntdll.dll</code>到<code>darknet.exe</code>附近即可</p><p><strong>优雅退出!</strong><br><img src="/images/2019-03-15-00-06-25.png" alt=""></p><!-- rebuild by neat -->]]></content>
     
     <summary type="html">
     
-      &lt;!-- build time:Sun Mar 17 2019 10:53:56 GMT+0800 (中国标准时间) --&gt;&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;&lt;p&gt;最近在做&lt;code&gt;yolov3&lt;/code&gt;目标检测, 总是遇到了各种问题和bug。&lt;br&gt;这次遇到的是 打开摄像头检测后, 退出程序时, 程序发生崩溃。&lt;br&gt;&lt;img src=&quot;/images/2019-03-14-23-51-08.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;!-- build time:Sun Mar 17 2019 15:37:47 GMT+0800 (中国标准时间) --&gt;&lt;h1 id=&quot;可能并无卵用&quot;&gt;可能并无卵用!..&lt;/h1&gt;&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;&lt;p&gt;最近在做&lt;code&gt;yolov3&lt;/code&gt;目标检测, 总是遇到了各种问题和bug。&lt;br&gt;这次遇到的是 打开摄像头检测后, 退出程序时, 程序发生崩溃。&lt;br&gt;&lt;img src=&quot;/images/2019-03-14-23-51-08.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
     
