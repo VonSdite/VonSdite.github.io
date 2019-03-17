@@ -43,7 +43,7 @@
   <entry>
     <title><![CDATA[darknet yolov3 摄像头退出时程序崩溃]]></title>
     <url>%2Fposts%2Fd94f737c.html</url>
-    <content type="text"><![CDATA[可能并无卵用!..前言最近在做yolov3目标检测, 总是遇到了各种问题和bug。这次遇到的是 打开摄像头检测后, 退出程序时, 程序发生崩溃。webcam崩溃yolov3打开摄像头测试, 退出时, 程序会崩溃。如上图根据作者的说法, 尝试更换更低版本的opencv, 可能解决问题, 结果仍然崩溃。然后尝试对源码单步调试, 最终定位到了崩溃的原因如图(真的是边打断点, 边逐层深入, 调试很爽!)中断的原因是ntdll.dll, 但是报的错误说是在darknet.exe文件附近(但是没找到, 那估计是在环境变量某处), 而且考虑到是关闭摄像头时报错, 那就是和opencv有关系。Stack Overflow搜索了下opencv和ntdll.dll之间出的问题, 找到如下解决方案意思就是说, 首先要知道你用的程序用的是32位的ntdll.dll还是64位的ntdll.dll, 可以使用dependency walker来查看你的程序, 即exe因为我们编译的darknet.exe是64位的, 那肯定是64位的ntdll.dll用everything搜索ntdll.dll原来这个dll是系统dll, 难怪没在darknet目录下找到它。我们来查看下环境变量,可以看到C:\Windows\system32这个环境变量在第一个, 那肯定是读取了32位的ntdll.dll。解决办法就是复制C:\Windows\SysWOW64的ntdll.dll到darknet.exe附近即可优雅退出!]]></content>
+    <content type="text"><![CDATA[前言最近在做yolov3目标检测, 总是遇到了各种问题和bug。这次遇到的是 打开摄像头检测后, 退出程序时, 程序发生崩溃。webcam崩溃yolov3打开摄像头测试, 退出时, 程序会崩溃。如上图根据作者的说法, 尝试更换更低版本的opencv, 可能解决问题, 结果仍然崩溃。真正的办法更换稍高版本的opencv, 我这个奔溃的是opencv3.4.0, 作者说opencv3.4.1有bug, 所以下载opencv3.4.3设置好环境变量, 安装编解码器xvid, 修改demo.c代码为如下:前些日子错误的解决办法然后尝试对源码单步调试, 最终定位到了崩溃的原因如图(真的是边打断点, 边逐层深入, 调试很爽!)中断的原因是ntdll.dll, 但是报的错误说是在darknet.exe文件附近(但是没找到, 那估计是在环境变量某处), 而且考虑到是关闭摄像头时报错, 那就是和opencv有关系。Stack Overflow搜索了下opencv和ntdll.dll之间出的问题, 找到如下解决方案意思就是说, 首先要知道你用的程序用的是32位的ntdll.dll还是64位的ntdll.dll, 可以使用dependency walker来查看你的程序, 即exe因为我们编译的darknet.exe是64位的, 那肯定是64位的ntdll.dll用everything搜索ntdll.dll原来这个dll是系统dll, 难怪没在darknet目录下找到它。我们来查看下环境变量,可以看到C:\Windows\system32这个环境变量在第一个, 那肯定是读取了32位的ntdll.dll。解决办法就是复制C:\Windows\SysWOW64的ntdll.dll到darknet.exe附近即可优雅退出!]]></content>
       <categories>
         <category>darknet</category>
         <category>yolov3</category>
