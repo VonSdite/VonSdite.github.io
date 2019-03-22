@@ -296,11 +296,11 @@
     <url>%2Fposts%2F31cb5475.html</url>
     <content type="text"><![CDATA[项目代码: https://github.com/VonSdite/GetLeetcodeQuestion前言写leetcode题解(特指用markdown写)的时候, 想把leetcode的题目信息也放入到题解中,但是又不想截图(图片占空间、而且题目可能很长, 需要分段截图),因此想着把leetcode题目的html直接拿下来, 但是直接copy html代码,又会丢失css样式, 不能很好地将题目原样呈现出来, 而且操作繁琐,所以就做了一个获取leetcode题目信息html代码的Chrome插件环境Chrome插件(仅适用Chrome内核的浏览器, 比如Chrome、360、QQ浏览器等)使用使用命令gitclone本项目1git clone https://github.com/VonSdite/GetLeetcodeQuestion.git打开Chrome浏览器的扩展程序(点击Chrome浏览器右上角设置 - 更多工具 - 扩展程序(E))点击加载已解压的扩展程序, 选择本项目即可演示完成上述操作后,以后打开leetcode的题目就会在题目旁边多了如下的按钮, 点击按钮即可将题目的html代码放入到剪切板中复制的html代码之后只需要ctrl+v就可以粘贴代码了, 比如上面这题Two Sum粘贴出来的代码如下123456789101112131415[Two Sum - LeetCode](https://leetcode.com/problems/two-sum/)&lt;div style="margin:1em 0;font-size:13px;"&gt;&lt;div&gt;&lt;p&gt;Given an array of integers, return &lt;strong&gt;indices&lt;/strong&gt; of the two numbers such that they add up to a specific target.&lt;/p&gt;&lt;p&gt;You may assume that each input would have &lt;strong&gt;&lt;em&gt;exactly&lt;/em&gt;&lt;/strong&gt; one solution, and you may not use the &lt;em&gt;same&lt;/em&gt; element twice.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt;&lt;pre style="white-space:pre-wrap;background:#f7f9fa;padding:10px15px;color:#263238;line-height:1.6;font-size:13px;border-radius:3px;margin-top:0;margin-bottom:1em;overflow:auto;font-family:SFMono-Regular,Consolas,LiberationMono,Menlo,Courier,monospace;"&gt;Given nums = [2, 7, 11, 15], target = 9,Because nums[&lt;strong&gt;0&lt;/strong&gt;] + nums[&lt;strong&gt;1&lt;/strong&gt;] = 2 + 7 = 9,return [&lt;strong&gt;0&lt;/strong&gt;, &lt;strong&gt;1&lt;/strong&gt;].&lt;/pre&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;markdown中的效果Two Sum - LeetCodeGiven an array of integers, return indices of the two numbers such that they add up to a specific target.You may assume that each input would have exactly one solution, and you may not use the same element twice.Example:Given nums = [2, 7, 11, 15], target = 9, Because nums[0] + nums[1] = 2 + 7 = 9, return [0, 1]. &nbsp;可以发现, 粘贴的代码与原来的html代码的区别:html标签的class均被替换为原来的css样式&lt;pre&gt;标签额外添加了它的css样式]]></content>
       <categories>
-        <category>JavaScript</category>
+        <category>Javascript</category>
         <category>Chrome插件</category>
       </categories>
       <tags>
-        <tag>JavaScript</tag>
+        <tag>Javascript</tag>
         <tag>Chrome插件</tag>
         <tag>Leetcode</tag>
       </tags>
